@@ -1,18 +1,18 @@
-# Linux Server Project
+# Linux Server Configuration
 
-This document describes the Linux Server project for udacity assignment.
+This document describes the Linux Server Configuration project.
 
 ## Overview
 
 The project consists of an Amazon Lightsail server running the [Amazing Catalog Application](https://github.com/thiagothalison1/amazing-catalog-project) with a PostgresSQL database. The following sections describes:
 
-1. [The server stack](#application-stack)
-2. [The server configuration overview](#server-configuration-overview)
+1. [The project stack](#project-stack)
+2. [The configuration overview](#configuration-overview)
 3. [The server access guidelines](#server-access)
 4. [The application access guidelines](#application-access)
 5. [Third-party resources](#third-party-resources)
 
-## Application Stack
+## Project Stack
 
 | Name        | Description           | Version  |
 | ------------- |:-------------:| -----|
@@ -22,7 +22,9 @@ The project consists of an Amazon Lightsail server running the [Amazing Catalog 
 | Apache | web application server | 2.4.18 |
 | WSGI | Python application executor on apache server | 4.3.0-1
 
-## Server Configuration Overview
+## Configuration Overview
+
+### Server Configuration
 
 1. Created user `grader` and added the user on `sudoers` group
 
@@ -33,6 +35,25 @@ The project consists of an Amazon Lightsail server running the [Amazing Catalog 
 4. PostgresSQL running on port `5432`, but is not visible on the internet.
 
 5. Create a key-pair for user `grader` authentication.
+
+### Application Configuration
+
+1. Executed the `project_config.sh` script to install dependencies on the server.
+
+```
+Located at: ./var/www/flask/project_config.sh
+```
+
+2. Changed the database connection url from the sqlite to postgres driver.
+
+```
+postgresql://grader:grader@localhost:5432/catalog
+```
+
+3. Moved the app secret key from within the __main__ function to a global scope because the WSGI does not call the __main__ function.
+
+4. Created a special Client ID for this application to enable the Google Oauth service.
+
 
 ## Server Access
 
@@ -79,5 +100,3 @@ http://3.81.23.35.xip.io:80
 
 ## License
 This project is distributed under [MIT License](https://opensource.org/licenses/MIT)
-
-
